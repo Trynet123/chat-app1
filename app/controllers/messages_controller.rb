@@ -2,6 +2,10 @@ class MessagesController < ApplicationController
   def index
     @message = Message.new
     @room = Room.find(params[:room_id])
+
+    # メッセージに紐付くユーザー情報の取得に、メッセージの数と同じ回数のアクセスが必要になる
+    @messages = @room.messages.includes(:user)
+    # @messages = @room.messages.all.includes(:room)
   end
 
   def create
@@ -16,9 +20,12 @@ class MessagesController < ApplicationController
     # これによって保存後の情報に更新
       redirect_to room_messages_path(@room)
       # redirect_to 'message/index'
-      
+
     else
+      @messages = @room.messages.includes(:user)
+      
       # indexアクションのindex.html.erbを表示
+      # @messagesが定義されていないとエラー
       render :index
 
       # render 
