@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   # ビューを実装するために仮のルーティング
   root to: "messages#index"
   resources :users, only: [:edit, :update]
+  resources :rooms, only: [:new, :create]
 end
